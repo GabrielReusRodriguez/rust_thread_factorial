@@ -1,5 +1,10 @@
+#![allow(dead_code)]
+#![allow(unused)]
+
 //use std::sync::mpsc::channel;
 use std::thread::{self, JoinHandle};
+
+use crate::data::loader::load_data_file;
 
 //use crate::ThreadManager::thread_logic;
 
@@ -8,6 +13,9 @@ mod data;
 
 //use ThreadManager::thread_logic;
 
+
+//#[allow(dead_code)]
+//#[allow(unused)]
 
 // https://stackoverflow.com/questions/72493266/how-to-loop-over-thread-handles-and-join-if-finished-within-another-loop
 
@@ -116,10 +124,19 @@ fn create_threads(numbers: &mut Vec::<u128>){
 fn main() {
 
     let mut numbers =  Vec::<u128>::new();
+    let file_name = "gabriel.txt";
+    match load_data_file("./data/numbers.txt", &mut numbers) {
+        Ok(_) =>(),
+        Err(_error) => { 
+            panic!("ERROR loading data file {file_name} : {_error}");
+        }
+    }
+    /* 
     println!("Hello, world!");
     data::loader::init_numbers(&mut numbers, NUM_VALUES);
     println!("\tVector inicial:\t{numbers:?}");
     create_threads(&mut numbers);
+    */
     println!("\tVector final:\t{numbers:?}");
     println!("Bye, world!");
 }
